@@ -289,8 +289,8 @@ def collate(batch):
 
 
 def train(model, device, config, epochs=5, batch_size=1, save_cp=True, log_step=20, img_scale=0.5):
-    train_dataset = Yolo_dataset(config.train_label, config, train=True)
-    val_dataset = Yolo_dataset(config.val_label, config, train=False)
+    train_dataset = Yolo_dataset(config.train_images, config.train_gt, config, train=True)
+    val_dataset = Yolo_dataset(config.val_images, config.val_gt, config, train=False)
 
     n_train = len(train_dataset)
     n_val = len(val_dataset)
@@ -606,14 +606,16 @@ def _get_date_str():
 if __name__ == "__main__":
     logging = init_logger(log_dir='log')
     cfg = get_args(**Cfg)
-    os.environ["CUDA_VISIBLE_DEVICES"] = cfg.gpu
+    os.environ["CUDA_VISIBLE_DEVICES"] = '0'
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     logging.info(f'Using device {device}')
 
     if cfg.use_darknet_cfg:
         model = Darknet(cfg.cfgfile)
+        #print('model loaded')
     else:
         model = Yolov4(cfg.pretrained, n_classes=cfg.classes)
+        print('model loaded')
 
     if torch.cuda.device_count() > 1:
         model = torch.nn.DataParallel(model)

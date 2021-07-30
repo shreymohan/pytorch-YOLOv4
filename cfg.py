@@ -15,10 +15,10 @@ from easydict import EasyDict
 
 
 _BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
+_DATA_DIR = '/home/shrey/vecros/data/UAV-benchmark-M' # change accordingly
 Cfg = EasyDict()
 
-Cfg.use_darknet_cfg = True
+Cfg.use_darknet_cfg = False  # use pre-trained yolov4 coco weights 
 Cfg.cfgfile = os.path.join(_BASE_DIR, 'cfg', 'yolov4.cfg')
 
 Cfg.batch = 64
@@ -54,8 +54,14 @@ Cfg.blur = 0
 Cfg.gaussian = 0
 Cfg.boxes = 60  # box num
 Cfg.TRAIN_EPOCHS = 300
-Cfg.train_label = os.path.join(_BASE_DIR, 'data', 'train.txt')
-Cfg.val_label = os.path.join(_BASE_DIR, 'data' ,'val.txt')
+
+#Cfg.train_label = os.path.join(_BASE_DIR, 'data', 'train.txt')
+#Cfg.val_label = os.path.join(_BASE_DIR, 'data' ,'val.txt')
+Cfg.train_images = os.path.join(_BASE_DIR,'train','seq')
+Cfg.train_gt = os.path.join(_BASE_DIR,'train','gt')
+Cfg.val_images = os.path.join(_BASE_DIR,'val','seq')
+Cfg.val_gt = os.path.join(_BASE_DIR,'val','gt')
+
 Cfg.TRAIN_OPTIMIZER = 'adam'
 '''
 image_path1 x1,y1,x2,y2,id x1,y1,x2,y2,id x1,y1,x2,y2,id ...
